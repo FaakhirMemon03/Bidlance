@@ -40,8 +40,10 @@ export const deliverOrderAPI = (id) => api.put(`/orders/${id}/deliver`);
 export const approveOrderAPI = (id) => api.put(`/orders/${id}/approve`);
 
 // Bids
-export const getProjectBidsAPI = (projectId) => api.get(`/bids/${projectId}`);
 export const placeBidAPI = (data) => api.post('/bids', data);
+export const getProjectBidsAPI = (projectId) => api.get(`/bids/${projectId}`);
+export const getSellerBidsAPI = () => api.get('/bids/seller/active');
+export const respondToBidAPI = (bidId, status) => api.put(`/bids/${bidId}/respond`, { status });
 
 // Uploads (Cloudinary via backend)
 const uploadHeaders = { headers: { 'Content-Type': 'multipart/form-data' } };
