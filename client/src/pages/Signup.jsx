@@ -48,7 +48,7 @@ const Signup = () => {
 
                 <div className="text-center mb-10">
                     <Link to="/" className="inline-block mb-6">
-                        <span className="text-3xl font-black gradient-text">Bidlance</span>
+                        <img src="/logo.png" alt="BidLance" className="w-16 h-16 mx-auto object-contain" />
                     </Link>
                     <h1 className="text-2xl font-bold mb-2 text-white">Create Your Account</h1>
                     <p className="text-gray-500 text-sm">Join thousands of professionals on Bidlance</p>
