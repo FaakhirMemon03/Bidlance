@@ -17,6 +17,8 @@ const userSchema = new mongoose.Schema({
     cv: { type: String }, // URL to CV file
     rating: { type: Number, default: 0 },
     reviewsCount: { type: Number, default: 0 },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
