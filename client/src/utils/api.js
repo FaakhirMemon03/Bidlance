@@ -22,6 +22,7 @@ export const resetPasswordAPI = (token, data) => api.put(`/auth/reset-password/$
 // Projects
 export const getProjectsAPI = (params) => api.get('/projects', { params });
 export const getProjectAPI = (id) => api.get(`/projects/${id}`);
+export const getMyProjectsAPI = () => api.get('/projects/my-projects');
 export const createProjectAPI = (data) => api.post('/projects', data);
 export const updateProjectAPI = (id, data) => api.put(`/projects/${id}`, data);
 export const deleteProjectAPI = (id) => api.delete(`/projects/${id}`);
