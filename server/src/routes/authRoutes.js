@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-// Controllers will be imported here
+const { signup, login, getMe } = require('../controllers/authController');
+const { protect } = require('../middlewares/authMiddleware');
 
-router.post('/signup', (req, res) => {
-    res.json({ message: 'Signup route working' });
-});
-
-router.post('/login', (req, res) => {
-    res.json({ message: 'Login route working' });
-});
+router.post('/signup', signup);
+router.post('/login', login);
+router.get('/me', protect, getMe);
 
 module.exports = router;
