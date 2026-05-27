@@ -123,16 +123,16 @@ const Home = () => {
 
                             {/* Smaller floating element */}
                             <motion.div
-                                animate={{ y: [0, 15, 0] }}
-                                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                                className="absolute -bottom-6 -left-12 glass p-4 rounded-2xl flex items-center gap-3 border border-white/10"
+                                animate={{ y: [0, -10, 0] }}
+                                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                                className="absolute -bottom-8 right-1/2 lg:right-auto lg:-left-12 glass p-4 rounded-2xl flex items-center gap-3 border border-white/10 z-20 shadow-2xl backdrop-blur-xl"
                             >
                                 <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
                                     <ShieldCheck size={24} />
                                 </div>
-                                <div>
-                                    <p className="text-xs text-gray-400">Secure Escrow</p>
-                                    <p className="font-bold text-sm">Payment Protected</p>
+                                <div className="whitespace-nowrap">
+                                    <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Secure Escrow</p>
+                                    <p className="font-black text-sm text-white">Payment Protected</p>
                                 </div>
                             </motion.div>
                         </div>

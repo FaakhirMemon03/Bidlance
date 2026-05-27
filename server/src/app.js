@@ -17,7 +17,17 @@ app.use(cors({
     origin: process.env.CLIENT_URL || 'http://localhost:5173',
     credentials: true
 }));
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            "default-src": ["'self'"],
+            "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+            "style-src": ["'self'", "'unsafe-inline'"],
+            "img-src": ["'self'", "data:", "res.cloudinary.com"],
+            "connect-src": ["'self'", "ws://localhost:5173", "ws://localhost:5174", "ws://localhost:5175", "http://localhost:5005"],
+        },
+    },
+}));
 
 // Rate Limiting
 const limiter = rateLimit({
