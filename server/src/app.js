@@ -27,6 +27,11 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
+// Routes
+const authRoutes = require('./routes/authRoutes');
+
+app.use('/api/auth', authRoutes);
+
 // Basic Route
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to Bidlance API' });
