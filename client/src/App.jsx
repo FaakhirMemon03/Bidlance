@@ -23,6 +23,7 @@ import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   const { user } = useSelector(state => state.auth);
+  const redirectPath = user?.role === 'admin' ? '/dashboard/admin' : user?.role === 'seller' ? '/dashboard/seller' : '/dashboard';
 
   return (
     <Router>
@@ -43,10 +44,10 @@ function App() {
             {/* Public */}
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
-            <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
-            <Route path="/signup" element={user ? <Navigate to="/dashboard" /> : <Signup />} />
-            <Route path="/forgot-password" element={user ? <Navigate to="/dashboard" /> : <ForgotPassword />} />
-            <Route path="/reset-password/:token" element={user ? <Navigate to="/dashboard" /> : <ResetPassword />} />
+            <Route path="/login" element={user ? <Navigate to={redirectPath} /> : <Login />} />
+            <Route path="/signup" element={user ? <Navigate to={redirectPath} /> : <Signup />} />
+            <Route path="/forgot-password" element={user ? <Navigate to={redirectPath} /> : <ForgotPassword />} />
+            <Route path="/reset-password/:token" element={user ? <Navigate to={redirectPath} /> : <ResetPassword />} />
 
             {/* Protected — Buyer */}
             <Route path="/dashboard" element={
