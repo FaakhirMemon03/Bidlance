@@ -33,12 +33,14 @@ const projectRoutes = require('./routes/projectRoutes');
 const walletRoutes = require('./routes/walletRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const bidRoutes = require('./routes/bidRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/wallet', walletRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/bids', bidRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Health Check
 app.get('/', (req, res) => {
