@@ -40,4 +40,10 @@ export const approveOrderAPI = (id) => api.put(`/orders/${id}/approve`);
 export const getProjectBidsAPI = (projectId) => api.get(`/bids/${projectId}`);
 export const placeBidAPI = (data) => api.post('/bids', data);
 
+// Uploads (Cloudinary via backend)
+const uploadHeaders = { headers: { 'Content-Type': 'multipart/form-data' } };
+export const uploadAvatarAPI = (formData) => api.post('/upload/avatar', formData, uploadHeaders);
+export const uploadProjectImagesAPI = (formData) => api.post('/upload/project-images', formData, uploadHeaders);
+export const uploadCvAPI = (formData) => api.post('/upload/cv', formData, uploadHeaders);
+
 export default api;
