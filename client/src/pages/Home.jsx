@@ -123,9 +123,9 @@ const Home = () => {
 
                             {/* Smaller floating element */}
                             <motion.div
-                                animate={{ y: [0, -10, 0] }}
+                                animate={{ y: [0, -8, 0] }}
                                 transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                                className="absolute -bottom-8 right-1/2 lg:right-auto lg:-left-12 glass p-4 rounded-2xl flex items-center gap-3 border border-white/10 z-20 shadow-2xl backdrop-blur-xl"
+                                className="absolute -bottom-14 -left-8 lg:-left-20 glass p-3.5 rounded-[1.5rem] flex items-center gap-3 border border-white/10 z-20 shadow-2xl backdrop-blur-xl scale-90 lg:scale-100"
                             >
                                 <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
                                     <ShieldCheck size={24} />
