@@ -2,8 +2,42 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Rocket, ShieldCheck, Zap, ArrowRight, DollarSign, Timer } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ProjectCard from '../components/ProjectCard';
 
 const Home = () => {
+    const sampleProjects = [
+        {
+            id: 1,
+            title: "Premium SaaS Dashboard with Next.js & Tailwind",
+            sellerName: "creative_mind",
+            price: 25000,
+            deliveryTime: "3 Days",
+            biddingEnabled: true,
+            rating: 4.9,
+            ordersCount: 12
+        },
+        {
+            id: 2,
+            title: "Professional Branding & Logo Identity Design",
+            sellerName: "visual_expert",
+            price: 15000,
+            deliveryTime: "2 Days",
+            biddingEnabled: false,
+            rating: 5.0,
+            ordersCount: 45
+        },
+        {
+            id: 3,
+            title: "Custom E-commerce Solution with Payment Integration",
+            sellerName: "dev_master",
+            price: 85000,
+            deliveryTime: "7 Days",
+            biddingEnabled: true,
+            rating: 4.8,
+            ordersCount: 8
+        }
+    ];
+
     return (
         <div className="pt-24 pb-20">
             {/* Hero Section */}
@@ -103,6 +137,25 @@ const Home = () => {
                             </motion.div>
                         </div>
                     </motion.div>
+                </div>
+            </section>
+
+            {/* Trending Projects Section */}
+            <section className="mt-32 container mx-auto px-6">
+                <div className="flex items-end justify-between mb-12">
+                    <div>
+                        <h2 className="text-4xl font-bold mb-4">Trending <span className="gradient-text">Projects</span></h2>
+                        <p className="text-gray-400">Discover the most sought-after digital services right now.</p>
+                    </div>
+                    <Link to="/explore" className="hidden md:flex items-center gap-2 text-primary font-bold hover:underline">
+                        View All Projects <ArrowRight size={18} />
+                    </Link>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {sampleProjects.map((project) => (
+                        <ProjectCard key={project.id} project={project} />
+                    ))}
                 </div>
             </section>
 
