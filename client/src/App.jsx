@@ -14,6 +14,8 @@ import Explore from './pages/Explore';
 import Wallet from './pages/Wallet';
 import BuyerDashboard from './pages/BuyerDashboard';
 import SellerDashboard from './pages/SellerDashboard';
+import CreateProject from './pages/CreateProject';
+import ProjectDetails from './pages/ProjectDetails';
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -51,6 +53,10 @@ function App() {
             {/* Protected — Seller */}
             <Route path="/dashboard/seller" element={
               <ProtectedRoute role="seller"><SellerDashboard /></ProtectedRoute>
+            } />
+            <Route path="/projects/:id" element={<ProjectDetails />} />
+            <Route path="/create-project" element={
+              <ProtectedRoute role="seller"><CreateProject /></ProtectedRoute>
             } />
 
             {/* 404 */}
