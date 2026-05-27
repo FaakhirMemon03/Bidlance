@@ -1,7 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const User = require('../models/User');
 const Wallet = require('../models/Wallet');
+const sendEmail = require('../utils/sendEmail');
 
 // Generate JWT
 const generateToken = (id, role) => {
@@ -111,4 +113,89 @@ const getMe = async (req, res) => {
     res.status(200).json({ success: true, user });
 };
 
-module.exports = { signup, login, getMe };
+// @desc    Forgot Password
+// @route   POST /api/auth/forgot-password
+const forgotPassword = async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'There is no user with that email.' });
+        }
+
+        // Get reset token
+        const resetToken = user.getResetPasswordToken();
+
+        await user.save({ validateBeforeSave: false });
+
+        // Create reset URL
+        const resetUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+
+        const message = `You are receiving this email because you (or someone else) have requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+
+        try {
+            await sendEmail({
+                email: user.email,
+                subject: 'Password Reset Token (Bidlance)',
+                message,
+                html: `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                        <h2 style="color: #6366f1;">Password Reset Request</h2>
+                        <p>You requested to reset your password. Click the button below to set a new password. This link is valid for 10 minutes.</p>
+                        <a href="${resetUrl}" style="display: inline-block; padding: 12px 24px; background-color: #6366f1; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Reset Password</a>
+                        <p style="margin-top: 20px; color: #666; font-size: 12px;">If you didn't request this, please ignore this email.</p>
+                    </div>
+                `,
+            });
+
+            res.status(200).json({ success: true, message: 'Email sent!' });
+        } catch (err) {
+            console.error('Email error:', err);
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpire = undefined;
+
+            await user.save({ validateBeforeSave: false });
+
+            return res.status(500).json({ success: false, message: 'Email could not be sent.' });
+        }
+    } catch (error) {
+        console.error('Forgot Password Error:', error);
+        res.status(500).json({ success: false, message: 'Server error.' });
+    }
+};
+
+// @desc    Reset Password
+// @route   PUT /api/auth/reset-password/:resetToken
+const resetPassword = async (req, res) => {
+    try {
+        // Hash token to match the one in DB
+        const resetPasswordToken = crypto
+            .createHash('sha256')
+            .update(req.params.resetToken)
+            .digest('hex');
+
+        const user = await User.findOne({
+            resetPasswordToken,
+            resetPasswordExpire: { $gt: Date.now() },
+        });
+
+        if (!user) {
+            return res.status(400).json({ success: false, message: 'Invalid or expired token.' });
+        }
+
+        // Set new password
+        const salt = await bcrypt.genSalt(12);
+        user.password = await bcrypt.hash(req.body.password, salt);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpire = undefined;
+
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Password reset successful! You can now login.' });
+    } catch (error) {
+        console.error('Reset Password Error:', error);
+        res.status(500).json({ success: false, message: 'Server error.' });
+    }
+};
+
+module.exports = { signup, login, getMe, forgotPassword, resetPassword };
