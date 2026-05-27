@@ -2,13 +2,18 @@ const cloudinary = require('../config/cloudinary');
 const streamifier = require('streamifier');
 
 /**
- * Upload a file buffer to Cloudinary
- * @param {Buffer} buffer - File buffer from multer memoryStorage
- * @param {string} folder - Cloudinary folder name (e.g. 'projects', 'avatars', 'cvs')
- * @param {object} options - Additional Cloudinary options
- * @returns {Promise<object>} Cloudinary upload result
+ * Upload a file buffer to Cloudinary with Fallback for Dev
  */
 const uploadToCloudinary = (buffer, folder = 'bidlance', options = {}) => {
+    // If keys are missing, return a placeholder instead of crashing
+    if (!process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_CLOUD_NAME) {
+        console.warn(`⚠️ [DEV MODE] Cloudinary keys missing in .env. Using placeholder image.`);
+        return Promise.resolve({
+            secure_url: 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1000',
+            public_id: 'dev_placeholder'
+        });
+    }
+
     return new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
             {
@@ -25,13 +30,13 @@ const uploadToCloudinary = (buffer, folder = 'bidlance', options = {}) => {
     });
 };
 
-/**
- * Delete a file from Cloudinary by public_id
- * @param {string} publicId - The Cloudinary public_id of the file
- */
 const deleteFromCloudinary = async (publicId) => {
-    if (!publicId) return;
-    await cloudinary.uploader.destroy(publicId);
+    if (!publicId || publicId === 'dev_placeholder') return;
+    try {
+        await cloudinary.uploader.destroy(publicId);
+    } catch (err) {
+        console.error('Cloudinary Delete Error:', err);
+    }
 };
 
 module.exports = { uploadToCloudinary, deleteFromCloudinary };
