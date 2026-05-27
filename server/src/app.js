@@ -22,19 +22,38 @@ app.use(helmet());
 // Rate Limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: 100,
     message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 app.use('/api', limiter);
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
+const projectRoutes = require('./routes/projectRoutes');
+const walletRoutes = require('./routes/walletRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const bidRoutes = require('./routes/bidRoutes');
 
 app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/wallet', walletRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/bids', bidRoutes);
 
-// Basic Route
+// Health Check
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to Bidlance API' });
+    res.json({ message: '🚀 Bidlance API is running!', version: '1.0.0' });
+});
+
+// 404 Handler
+app.use((req, res) => {
+    res.status(404).json({ success: false, message: 'Route not found.' });
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ success: false, message: err.message || 'Internal Server Error' });
 });
 
 module.exports = app;
