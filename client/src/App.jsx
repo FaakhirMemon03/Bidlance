@@ -19,6 +19,7 @@ import ProjectDetails from './pages/ProjectDetails';
 import Profile from './pages/Profile';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -58,6 +59,9 @@ function App() {
             {/* Protected — Seller */}
             <Route path="/dashboard/seller" element={
               <ProtectedRoute role="seller"><SellerDashboard /></ProtectedRoute>
+            } />
+            <Route path="/dashboard/admin" element={
+              <ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>
             } />
             <Route path="/projects/:id" element={<ProjectDetails />} />
             <Route path="/create-project" element={
