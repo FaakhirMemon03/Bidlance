@@ -33,11 +33,9 @@ const Navbar = () => {
         <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'glass py-3 shadow-2xl shadow-black/20' : 'bg-transparent py-5'}`}>
             <div className="container mx-auto px-6 flex items-center justify-between">
                 {/* Logo */}
-                <Link to="/" className="flex items-center space-x-2.5 shrink-0">
-                    <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                        <span className="text-white font-black text-lg">B</span>
-                    </div>
-                    <span className="text-xl font-black gradient-text">Bidlance</span>
+                <Link to="/" className="flex items-center gap-2 shrink-0">
+                    <img src="/logo.png" alt="BidLance" className="w-10 h-10 object-contain" />
+                    <span className="text-xl font-black gradient-text hidden sm:block">BidLance</span>
                 </Link>
 
                 {/* Desktop Center Links */}
