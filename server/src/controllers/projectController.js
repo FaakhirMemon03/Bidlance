@@ -118,4 +118,16 @@ const deleteProject = async (req, res) => {
     }
 };
 
-module.exports = { getProjects, getProject, createProject, updateProject, deleteProject };
+// @desc    Get seller's own projects
+// @route   GET /api/projects/my-projects
+const getSellerProjects = async (req, res) => {
+    try {
+        const projects = await Project.find({ seller: req.user.id, status: { $ne: 'deleted' } })
+            .sort({ createdAt: -1 });
+        res.status(200).json({ success: true, projects });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error.' });
+    }
+};
+
+module.exports = { getProjects, getProject, createProject, updateProject, deleteProject, getSellerProjects };
