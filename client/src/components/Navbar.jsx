@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Menu, X, Wallet, ShoppingBag, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
+import { Search, Menu, X, Wallet, ShoppingBag, LayoutDashboard, LogOut, ChevronDown, User } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/authSlice';
 import toast from 'react-hot-toast';
@@ -86,6 +86,9 @@ const Navbar = () => {
                                             <div className="border-t border-white/5 my-1"></div>
                                             <Link to={dashboardPath} onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-sm transition-colors">
                                                 <LayoutDashboard size={15} /> Dashboard
+                                            </Link>
+                                            <Link to="/profile" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-sm transition-colors">
+                                                <User size={15} /> My Profile
                                             </Link>
                                             <Link to="/wallet" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-sm transition-colors">
                                                 <Wallet size={15} /> My Wallet

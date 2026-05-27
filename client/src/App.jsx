@@ -16,6 +16,7 @@ import BuyerDashboard from './pages/BuyerDashboard';
 import SellerDashboard from './pages/SellerDashboard';
 import CreateProject from './pages/CreateProject';
 import ProjectDetails from './pages/ProjectDetails';
+import Profile from './pages/Profile';
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -57,6 +58,9 @@ function App() {
             <Route path="/projects/:id" element={<ProjectDetails />} />
             <Route path="/create-project" element={
               <ProtectedRoute role="seller"><CreateProject /></ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute><Profile /></ProtectedRoute>
             } />
 
             {/* 404 */}
